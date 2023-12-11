@@ -26,8 +26,11 @@ using namespace node;
 NodeManager&
 NodeManager::get()
 {
-  thread_local static NodeManager mgr;
-  return mgr;
+  thread_local static NodeManager *mgr_ptr;
+  if (mgr_ptr == nullptr) {
+    mgr_ptr = new NodeManager();
+  }
+  return *mgr_ptr;
 }
 
 NodeManager::~NodeManager()
